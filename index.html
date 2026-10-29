@@ -61,9 +61,9 @@ input,textarea,select{width:100%;padding:12px;border:1px solid var(--bd);border-
 <div class="card"><ul style="margin:0;padding-left:18px;font-size:.92rem">
 <li>Envoi possible vers Paris. Adresse de l’entrepôt en France : <b>Parc du Moulin Basset, 12 Chemin, 93200 Saint-Denis, Entrepôt n°2B</b>.</li>
 <li>Expédition <b>à partir de 20 kg</b>.</li>
-<li>Transport : <b>1 000 F le kilo</b>.</li>
-<li>Carton (15 kg maximum) : <b>1 000 F</b> l’unité. Étiquettes autocollantes à coller sur les boules ou les pièces : <b>1 000 F</b> la feuille de 25. Facultatif si vous avez déjà les vôtres.</li>
-<li>Frais de livraison de la gare de Bassam (Treichville) à l’aéroport : <b>5 000 F</b>.</li>
+<li>Transport vers la France : <b>1 000 F le kilo</b>, à payer en France, à la livraison.</li>
+<li>Les <b>cartons</b> (15 kg maximum) et les <b>étiquettes autocollantes</b> sont à votre charge, à payer en France avec le transport. Facultatif si vous avez déjà les vôtres.</li>
+<li>Transport de Bonoua jusqu’à l’agence d’envoi : <b>5 000 F</b>, à payer avec votre commande.</li>
 <li>L’attiéké est expédié <b>sur demande</b> : écrivez-nous sur WhatsApp.</li>
 <li>Dites-nous où nous livrer <b>la veille de l’envoi</b> : vous pouvez ainsi déposer votre colis rapidement avant l’heure limite.</li>
 </ul></div>
@@ -71,7 +71,7 @@ input,textarea,select{width:100%;padding:12px;border:1px solid var(--bd);border-
 <h2>Conditions de commande</h2>
 <div class="card"><ul style="margin:0;padding-left:18px;font-size:.92rem">
 <li>Un <b>dépôt de validation de 5 000 F</b> est exigé pour confirmer la commande.</li>
-<li>Pour les commandes hors du pays, le <b>dépôt de la totalité</b> est exigé.</li>
+<li>Pour la France, vous payez maintenant le <b>montant de votre colis + 5 000 F</b> de transport jusqu’à l’agence d’envoi. Le kilo, les cartons et les étiquettes se paient en France.</li>
 <li>La préparation est organisée depuis Bonoua, puis les produits sont acheminés vers Abidjan.</li>
 <li>Les frais de livraison à Abidjan sont calculés selon la zone.</li>
 <li>Le dépôt se paie par <b>Wave ou Orange Money</b> au <b>07 13 42 71 07</b>.</li>
@@ -100,7 +100,7 @@ input,textarea,select{width:100%;padding:12px;border:1px solid var(--bd);border-
 <div class="tot"><span>Total</span><span id="tot">0 FCFA</span></div>
 <p id="sum"></p>
 <p id="dep" style="font-weight:700;color:var(--ac);margin:6px 0 0"></p>
-<div id="exp" class="card" style="display:none;font-size:.9rem;margin-top:10px">✈️ <b>Expédition vers la France (à partir de 20 kg) :</b> 1 000 F le kilo, plus 1 000 F par carton de 15 kg maximum, plus 1 000 F la feuille de 25 étiquettes autocollantes (une par boule ou pièce), plus 5 000 F de livraison de la gare de Bassam (Treichville) à l’aéroport. Les produits sont conditionnés chauds, donc les poids sont approximatifs : le montant exact vous sera confirmé sur WhatsApp.<label style="display:block;margin:8px 0"><input type="checkbox" id="own"> J’ai déjà mes cartons</label><label style="display:block;margin:8px 0"><input type="checkbox" id="ownS"> J’ai déjà mes étiquettes autocollantes</label><div id="expc" style="margin-top:6px;font-weight:700"></div></div>
+<div id="exp" class="card" style="display:none;font-size:.9rem;margin-top:10px">✈️ <b>Expédition vers la France (à partir de 20 kg) :</b> vous payez maintenant le montant de votre colis plus 5 000 F de transport jusqu’à l’agence d’envoi. Le transport (1 000 F le kilo), les cartons et les étiquettes autocollantes se paient en France, à la livraison. Les produits sont conditionnés chauds, donc les poids sont approximatifs.<label style="display:block;margin:8px 0"><input type="checkbox" id="own"> J’ai déjà mes cartons</label><label style="display:block;margin:8px 0"><input type="checkbox" id="ownS"> J’ai déjà mes étiquettes autocollantes</label><div id="expc" style="margin-top:6px;font-weight:700"></div></div>
 <button class="go" id="go">Envoyer ma commande sur WhatsApp</button>
 <div id="err"></div>
 <div id="fb" class="card" style="display:none;margin-top:14px"></div>
@@ -143,7 +143,7 @@ var fmt = function(n){return n.toLocaleString("fr-FR")+" FCFA"};
 
 var CARTON_KG = 15, CARTON_PRIX = 1000, STICKER_FEUILLE = 1000, STICKER_PAR_FEUILLE = 25;
 function expEst(){var kg=0,un=0,unk=false,any=false;LIG.forEach(function(x){var n=qte[x.id]||0;if(n){any=true;un+=n*(x.u||0);if(x.w)kg+=n*x.w;else unk=true;}});var own=$("own")&&$("own").checked,ownS=$("ownS")&&$("ownS").checked;var nc=Math.ceil(kg/CARTON_KG),ns=Math.ceil(un/STICKER_PAR_FEUILLE),fc=own?0:nc*CARTON_PRIX,fs=ownS?0:ns*STICKER_FEUILLE;return {kg:kg,unk:unk,any:any,own:own,ownS:ownS,nc:nc,un:un,ns:ns,fc:fc,fs:fs,cost:kg*1000+5000+fc+fs};}
-function expTxt(){var e=expEst();if(!e.any)return "";return "Poids estimé ≈ "+(Math.round(e.kg*10)/10).toLocaleString("fr-FR")+" kg, soit "+e.nc+" carton"+(e.nc>1?"s":"")+" de "+CARTON_KG+" kg maximum. Expédition estimée ≈ "+fmt(Math.round(e.cost))+" (1 000 F/kg"+(e.own?", cartons fournis par le client":" + "+fmt(e.fc)+" de cartons")+(e.ownS?", étiquettes fournies par le client":" + "+fmt(e.fs)+" d’étiquettes pour "+e.un+" boules ou pièces")+" + 5 000 F gare–aéroport)"+(e.unk?", plus le poids de certains articles à confirmer":"")+(e.kg<20?". ⚠️ Expédition possible à partir de 20 kg":"");}
+function expTxt(){var e=expEst();if(!e.any)return "";return "Poids estimé ≈ "+(Math.round(e.kg*10)/10).toLocaleString("fr-FR")+" kg, soit "+e.nc+" carton"+(e.nc>1?"s":"")+" de "+CARTON_KG+" kg maximum. À payer en France à la livraison : transport ≈ "+fmt(Math.round(e.kg*1000))+" (1 000 F/kg)"+(e.own?"":", cartons")+(e.ownS?"":(e.own?", ":" et ")+"étiquettes pour "+e.un+" boules ou pièces")+(e.own&&e.ownS?"":" (à votre charge)")+". À payer maintenant : montant du colis + 5 000 F de transport jusqu’à l’agence d’envoi"+(e.unk?". Poids de certains articles à confirmer":"")+(e.kg<20?". ⚠️ Expédition possible à partir de 20 kg":"")+".";}
 function draw(){
   $("list").innerHTML = PRODUITS.map(function(g){
     return '<div class="card"><div class="p"><div class="ic">'+(g.img?'<img src="'+g.img+'" alt="" style="width:100%;height:100%;object-fit:cover">':g.ic)+'</div><div class="inf"><b>'+g.nom+'</b><small>'+g.d+'</small></div></div>'+
@@ -156,7 +156,7 @@ function draw(){
   var ex = $("dest").value === "France" || $("dest").value === "Autre pays", fr = $("dest").value === "France";
   $("exp").style.display = fr ? "block" : "none"; $("expc").textContent = fr ? expTxt() : "";
   $("bar").style.display = t ? "flex" : "none"; $("bt").textContent = fmt(t); $("wa").className = t ? "up" : "";
-  $("dep").textContent = t ? "Dépôt de validation à verser : " + (ex ? fmt(t) + " (totalité)" : "5 000 FCFA") + " par Wave ou Orange Money au 07 13 42 71 07" : "";
+  $("dep").textContent = t ? "Dépôt de validation à verser : " + (fr ? fmt(t+5000) + " (colis + 5 000 F de transport jusqu’à l’agence)" : ex ? fmt(t) + " (totalité)" : "5 000 FCFA") + " par Wave ou Orange Money au 07 13 42 71 07" : "";
 }
 $("list").addEventListener("click", function(e){
   var b = e.target.closest("button"); if(!b) return;
@@ -174,11 +174,11 @@ $("go").addEventListener("click", function(){
   if(!e && fr){ var kk = expEst(); if(kk.kg < 20) e = "Expédition vers la France à partir de 20 kg : il vous manque " + (Math.round((20-kk.kg)*10)/10).toLocaleString("fr-FR") + " kg."; }
   $("err").textContent = e; if(e) return;
   if(WHATSAPP.indexOf("X") > -1){ $("err").textContent = "Le numéro de la boutique n’est pas encore configuré."; return; }
-  var m = "🛒 *Nouvelle commande*\n\n"+lignes.join("\n")+"\n\n*Total : "+fmt(t)+"*\n💰 Dépôt de validation : "+(ext?fmt(t)+" (totalité)":"5 000 FCFA")+(fr?"\n✈️ "+expTxt():"")+"\n\n👤 "+nom+"\n📞 "+tel+"\n📦 "+$("mode").value+" ("+$("dest").value+")"+(liv?" – "+adr:"")+"\n💳 "+$("pay").value+($("note").value.trim()?"\n📝 "+$("note").value.trim():"");
+  var m = "🛒 *Nouvelle commande*\n\n"+lignes.join("\n")+"\n\n*Total : "+fmt(t)+"*\n💰 Dépôt de validation : "+(fr?fmt(t+5000)+" (colis + 5 000 F de transport jusqu’à l’agence)":ext?fmt(t)+" (totalité)":"5 000 FCFA")+(fr?"\n✈️ "+expTxt():"")+"\n\n👤 "+nom+"\n📞 "+tel+"\n📦 "+$("mode").value+" ("+$("dest").value+")"+(liv?" – "+adr:"")+"\n💳 "+$("pay").value+($("note").value.trim()?"\n📝 "+$("note").value.trim():"");
   var u = "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m);
   var w = null; try{ w = window.open(u, "_blank"); }catch(x){}
   var f = $("fb"); f.style.display = "block";
-  f.innerHTML = '<p style="margin-top:0;font-weight:700;color:var(--ac2)">✅ Merci ! Votre commande sera confirmée après réception du dépôt ('+(ext?fmt(t)+', totalité':'5 000 FCFA')+').</p><p><b>'+(w ? 'Si WhatsApp ne s’est pas ouvert :' : 'WhatsApp ne s’est pas ouvert automatiquement :')+'</b><br>copiez votre commande et envoyez-la au 07 13 42 71 07.</p>'+
+  f.innerHTML = '<p style="margin-top:0;font-weight:700;color:var(--ac2)">✅ Merci ! Votre commande sera confirmée après réception du dépôt ('+(fr?fmt(t+5000)+', colis + 5 000 F de transport':ext?fmt(t)+', totalité':'5 000 FCFA')+').</p><p><b>'+(w ? 'Si WhatsApp ne s’est pas ouvert :' : 'WhatsApp ne s’est pas ouvert automatiquement :')+'</b><br>copiez votre commande et envoyez-la au 07 13 42 71 07.</p>'+
     '<textarea id="msg" rows="7" readonly></textarea>'+
     '<button class="go" id="cp" type="button">Copier la commande</button>'+
     '<a class="go" style="display:block;text-align:center;text-decoration:none" href="'+u+'" target="_blank" rel="noopener">Ouvrir WhatsApp</a>';

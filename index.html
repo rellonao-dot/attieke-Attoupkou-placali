@@ -63,7 +63,7 @@ input,textarea,select{width:100%;padding:12px;border:1px solid var(--bd);border-
 <li>Expédition <b>à partir de 20 kg</b>.</li>
 <li>Transport vers la France : <b>1 000 F le kilo</b>, à payer en France, à la livraison.</li>
 <li>Les <b>cartons</b> (15 kg maximum) et les <b>étiquettes autocollantes</b> sont à votre charge, à payer en France avec le transport.</li>
-<li>Livraison à l’agence d’envoi : <b>3 000 F</b>, à payer avec votre commande (en plus du transport de Bonoua à Abidjan).</li>
+<li>Livraison de la gare de Bassam (Treichville) à l’agence d’envoi : <b>3 000 F</b>, à payer avec votre commande (en plus du transport de Bonoua à Abidjan).</li>
 <li>L’attiéké est expédié <b>sur demande</b> : écrivez-nous sur WhatsApp.</li>
 <li>Dites-nous où nous livrer <b>la veille de l’envoi</b> : vous pouvez ainsi déposer votre colis rapidement avant l’heure limite.</li>
 </ul></div>
@@ -72,8 +72,8 @@ input,textarea,select{width:100%;padding:12px;border:1px solid var(--bd);border-
 <div class="card"><ul style="margin:0;padding-left:18px;font-size:.92rem">
 <li>À Bonoua et à Abidjan, vous versez <b>la moitié du montant de votre commande</b> (transport compris) pour la valider. Le reste se paie à la livraison.</li>
 <li>Pour les autres villes de Côte d’Ivoire et les autres pays, vous versez <b>la totalité</b> du montant pour valider votre commande.</li>
-<li>Pour la France, vous versez <b>la totalité</b> pour valider : votre colis + le transport Bonoua → Abidjan + 3 000 F de livraison à l’agence d’envoi. Le kilo, les cartons et les étiquettes se paient en France.</li>
-<li>Vers la France, pour les grosses commandes, le transport se fait par cargo ou fourgonnette : son prix est calculé avec vous sur WhatsApp, à la place des 3 000 F. C’est à partir de <b>6 sacs</b> de placali cru 300 g, <b>5 sacs</b> de 500 g, <b>4 sacs</b> de 1 kg, ou <b>10 sacs</b> d’attoupkou ou de placali préparé. Pour un mélange de produits, le site additionne la part de chacun.</li>
+<li>Pour la France, vous versez <b>la totalité</b> pour valider : votre colis + le transport Bonoua → Abidjan + 3 000 F de livraison de la gare de Bassam à l’agence d’envoi. Le kilo, les cartons et les étiquettes se paient en France.</li>
+<li>Vers la France, pour les grosses commandes, la livraison de la gare de Bassam (Treichville) jusqu’à l’agence d’envoi se fait par cargo ou fourgonnette : son prix est calculé avec vous sur WhatsApp, à la place des 3 000 F. L’agence expédie ensuite vers la France. C’est à partir de <b>6 sacs</b> de placali cru 300 g, <b>5 sacs</b> de 500 g, <b>4 sacs</b> de 1 kg, ou <b>10 sacs</b> d’attoupkou ou de placali préparé. Pour un mélange de produits, le site additionne la part de chacun.</li>
 <li>La préparation est organisée depuis Bonoua, puis les produits sont acheminés vers Abidjan : <b>1 000 F par sac</b> (ou par lot), ajouté automatiquement au total.</li>
 <li>Les frais de livraison à Abidjan sont calculés selon la zone.</li>
 <li>Le dépôt se paie par <b>Wave ou Orange Money</b> au <b>07 13 42 71 07</b>.</li>
@@ -103,7 +103,7 @@ input,textarea,select{width:100%;padding:12px;border:1px solid var(--bd);border-
 <small id="trs" style="display:block;color:var(--mut);margin:2px 0 6px"></small>
 <p id="sum"></p>
 <p id="dep" style="font-weight:700;color:var(--ac);margin:6px 0 0"></p>
-<div id="exp" class="card" style="display:none;font-size:.9rem;margin-top:10px">✈️ <b>Expédition vers la France (à partir de 20 kg) :</b> vous versez maintenant la totalité : votre colis, le transport de Bonoua à Abidjan et 3 000 F de livraison à l’agence d’envoi. Le transport vers la France (1 000 F le kilo), les cartons (15 kg maximum) et les étiquettes autocollantes se paient en France, à la livraison.<div id="expg" style="margin-top:8px;font-weight:700"></div></div>
+<div id="exp" class="card" style="display:none;font-size:.9rem;margin-top:10px">✈️ <b>Expédition vers la France (à partir de 20 kg) :</b> vous versez maintenant la totalité : votre colis, le transport de Bonoua à Abidjan et 3 000 F de livraison de la gare de Bassam à l’agence d’envoi. Le transport vers la France (1 000 F le kilo), les cartons (15 kg maximum) et les étiquettes autocollantes se paient en France, à la livraison.<div id="expg" style="margin-top:8px;font-weight:700"></div></div>
 <button class="go" id="go">Envoyer ma commande sur WhatsApp</button>
 <div id="err"></div>
 <div id="fb" class="card" style="display:none;margin-top:14px"></div>
@@ -159,12 +159,12 @@ var qte = {};
 var $ = function(i){return document.getElementById(i)};
 var fmt = function(n){return n.toLocaleString("fr-FR")+" FCFA"};
 
-function expTxt(){return cargo() ? "Grosse commande vers la France ("+nbSacs()+" sacs) : le transport par cargo ou fourgonnette est à calculer ensemble. Le kilo, les cartons et les étiquettes se paient en France." : "Expédition France : le transport (1 000 F le kilo), les cartons et les étiquettes se paient en France, à la livraison. Maintenant : colis + transport Bonoua → Abidjan + 3 000 F de livraison à l’agence d’envoi.";}
+function expTxt(){return cargo() ? "Grosse commande vers la France ("+nbSacs()+" sacs) : la livraison de la gare de Bassam à l’agence d’envoi se fait par cargo ou fourgonnette, prix à calculer ensemble. Le kilo, les cartons et les étiquettes se paient en France." : "Expédition France : le transport (1 000 F le kilo), les cartons et les étiquettes se paient en France, à la livraison. Maintenant : colis + transport Bonoua → Abidjan + 3 000 F de livraison de la gare de Bassam à l’agence d’envoi.";}
 var TR_SAC = 1000, LIV_AGENCE = 3000, SEUIL = {c3:6, c4:5, c5:4, v:6, a:10, p:10}; /* nb de sacs à partir duquel c’est cargo/fourgonnette vers la France : placali cru 300 g=6, 500 g=5, 1 kg=4, vrac=6, attoupkou=10, placali préparé=10 */
 function depot(t){var d=$("dest").value;
   if(d==="Bonoua"||d==="Abidjan")return {a:Math.round(t/2), x:" (la moitié du montant)"};
-  if(d==="France"&&cargo())return {a:t, x:" (totalité des produits + transport jusqu’à Abidjan ; le transport par cargo ou fourgonnette vers la France est calculé avec vous sur WhatsApp)"};
-  if(d==="France")return {a:t+LIV_AGENCE, x:" (totalité : colis + transport + 3 000 F de livraison à l’agence d’envoi)"};
+  if(d==="France"&&cargo())return {a:t, x:" (totalité des produits + transport jusqu’à Abidjan ; la livraison de la gare de Bassam à l’agence par cargo ou fourgonnette est calculée avec vous sur WhatsApp)"};
+  if(d==="France")return {a:t+LIV_AGENCE, x:" (totalité : colis + transport + 3 000 F de livraison de la gare de Bassam à l’agence d’envoi)"};
   return {a:t, x:" (totalité)"};}
 function chargeCargo(){var L=0;LIG.forEach(function(x){var n=qte[x.id]||0; if(!n)return;
   var k=SEUIL[/^c[345]/.test(x.id)?x.id.slice(0,2):x.id.charAt(0)]||10;
@@ -185,7 +185,7 @@ function draw(){
   $("sum").textContent = l.join(" · ");
   var ex = $("dest").value === "France" || $("dest").value === "Autre pays", fr = $("dest").value === "France";
   $("exp").style.display = fr ? "block" : "none";
-  $("expg").textContent = (fr && cargo()) ? "🚢 Grosse commande ("+ns+" sacs) : le transport par cargo ou fourgonnette remplace les 3 000 F. Son prix est calculé avec vous sur WhatsApp." : "";
+  $("expg").textContent = (fr && cargo()) ? "🚚 Grosse commande ("+ns+" sacs) : la livraison de la gare de Bassam à l’agence d’envoi se fait par cargo ou fourgonnette, à la place des 3 000 F. Son prix est calculé avec vous sur WhatsApp." : "";
   $("bar").style.display = t ? "flex" : "none"; $("bt").textContent = fmt(t); $("wa").className = t ? "up" : "";
   var dp = depot(t); $("dep").textContent = t ? "Dépôt de validation à verser : " + fmt(dp.a) + dp.x + " par Wave ou Orange Money au 07 13 42 71 07" : "";
 }
